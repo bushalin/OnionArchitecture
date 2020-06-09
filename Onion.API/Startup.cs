@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +9,8 @@ using Newtonsoft.Json.Serialization;
 using Onion.API.Middleware;
 using Onion.API.Repository;
 using Onion.API.Repository.Employee;
-using Onion.API.Services;
 using Onion.API.Services.Employee;
+using System;
 
 namespace Onion.API
 {
@@ -69,6 +64,8 @@ namespace Onion.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // i have integrated support to Azure and created a new repository in github.
+            // have also created a lot of small extensitons in VS2019
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
