@@ -89,5 +89,19 @@ namespace Onion.API.Controllers
 
             return NoContent();
         }
+
+
+        // DELETE api/employee/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEmployee(int id)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            _employeeServices.Delete(id);
+
+            return NoContent();
+        }
     }
 }
