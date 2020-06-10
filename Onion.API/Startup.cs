@@ -30,6 +30,19 @@ namespace Onion.API
             // service to add the http client to the application. without it we can not add an http call
             services.AddHttpClient();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigins",
+                    builder =>
+                    {
+                        builder.AllowCredentials()
+                        .AllowAnyHeader()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:4200");
+                    });
+            });
+
             // for the application to work with any type of controller, we need to add this first
             // we will add newtonsoft json at the end of this
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -70,6 +83,8 @@ namespace Onion.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowMyOrigins");
 
             app.UseRouting();
 

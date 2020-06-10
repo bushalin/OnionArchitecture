@@ -89,6 +89,28 @@ namespace Onion.Auth
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     }
+                },
+
+                new Client
+                {
+                    ClientId = "AngularClient",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireConsent = false,
+
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "http://localhost:4200/auth-callback" },
+                    PostLogoutRedirectUris = { "http://localhost:4200/" },
+
+                    AllowedCorsOrigins = new List<string> { "http://localhost:4200" },
+
+                    AllowedScopes =
+                    {
+                        "basicIdentityApi",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }

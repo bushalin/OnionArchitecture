@@ -23,6 +23,19 @@ namespace Onion.Auth
                 config.UseSqlServer(_config.GetConnectionString("OnionDbConnection"));
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigins",
+                    builder =>
+                    {
+                        builder.AllowCredentials()
+                        .AllowAnyHeader()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:4200");
+                    });
+            });
+
             // addidentity registers the service
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
             {
@@ -57,6 +70,8 @@ namespace Onion.Auth
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowMyOrigins");
 
             app.UseRouting();
 
