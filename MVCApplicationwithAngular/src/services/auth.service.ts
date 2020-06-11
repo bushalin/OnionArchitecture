@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserManager, User } from 'oidc-client';
 import { promise } from 'protractor';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,7 @@ export class AuthService {
   completeLogin(): Promise<any> {
     return this._userManager.signinRedirectCallback().then(user => {
       this._user = user;
+      localStorage.setItem('accessToken', this._user['access_token']);
     })
   }
 
