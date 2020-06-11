@@ -33,7 +33,8 @@ namespace Onion.API.Services.Employee
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _employeeRepo.Delete(id);
+            _employeeRepo.SaveChanges();
         }
 
         public void Edit(int id, EmployeeUpdateDto obj)

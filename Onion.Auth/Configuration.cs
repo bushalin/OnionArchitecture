@@ -1,11 +1,6 @@
-﻿using IdentityModel;
-using IdentityServer4;
+﻿using IdentityServer4;
 using IdentityServer4.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
 
 namespace Onion.Auth
 {
@@ -82,6 +77,31 @@ namespace Onion.Auth
 
                     RedirectUris = { "https://localhost:44334/" },
                     RequireConsent = false,
+
+                    AllowedScopes =
+                    {
+                        "basicIdentityApi",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
+                },
+
+                new Client
+                {
+                    ClientId = "AngularClient",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireConsent = false,
+
+                    // this is the PKCE type authentication. basically it is the same principal as GrantTypes.Code
+                    // we do not have client secret in javascript client that is why we generate a temporary secret and send it to server
+                    // server than hash it and compare with the temporary secret that client has sent again.
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "http://localhost:4200/auth-callback" },
+                    PostLogoutRedirectUris = { "http://localhost:4200/" },
+
+                    AllowedCorsOrigins = new List<string> { "http://localhost:4200" },
 
                     AllowedScopes =
                     {
