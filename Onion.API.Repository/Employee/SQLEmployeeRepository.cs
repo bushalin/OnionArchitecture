@@ -27,7 +27,8 @@ namespace Onion.API.Repository.Employee
 
         public void Delete(int id)
         {
-
+            var modelFromRepo = GetEmployeeById(id);
+            _context.Employees.Remove(modelFromRepo);
         }
 
         public void Edit(EmployeeModel employee)
