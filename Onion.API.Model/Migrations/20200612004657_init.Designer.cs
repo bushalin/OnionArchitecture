@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Onion.API.Repository;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Onion.API.Model;
 
-namespace Onion.API.Migrations
+namespace Onion.API.Model.Migrations
 {
-    [DbContext(typeof(OnionAPIDbContext))]
-    [Migration("20200601004028_init")]
+    [DbContext(typeof(OnionApiDbContext))]
+    [Migration("20200612004657_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +20,7 @@ namespace Onion.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Onion.API.Models.Employee", b =>
+            modelBuilder.Entity("Onion.API.Model.Employee.EmployeeModel", b =>
                 {
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
@@ -38,6 +39,35 @@ namespace Onion.API.Migrations
                     b.HasKey("EmployeeId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Onion.API.Model.Employee.Location", b =>
+                {
+                    b.Property<int>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeLocation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LocationId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("Onion.API.Model.Employee.Location", b =>
+                {
+                    b.HasOne("Onion.API.Model.Employee.EmployeeModel", "EmployeeModel")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

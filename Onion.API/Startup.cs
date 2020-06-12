@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using Onion.API.Middleware;
-using Onion.API.Repository;
+using Onion.API.Model;
 using Onion.API.Repository.Employee;
 using Onion.API.Services.Employee;
 using System;
@@ -17,16 +17,19 @@ namespace Onion.API
     public class Startup
     {
         private IConfiguration _config;
+
         public Startup(IConfiguration config)
         {
             _config = config;
         }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<OnionAPIDbContext>(config =>
+            services.AddDbContext<OnionApiDbContext>(config =>
             {
-                config.UseSqlServer(_config.GetConnectionString("OnionDbAPIConnection"));
+                config.UseSqlServer(_config.GetConnectionString("OnionDbApiConnection"));
             });
+
             // service to add the http client to the application. without it we can not add an http call
             services.AddHttpClient();
 
@@ -49,8 +52,6 @@ namespace Onion.API
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
-
-
 
             // this is where we make sure that our application's authentication is form the identityserver4 project.
             // the configure method's(below) authentication is using this authentication service for authenticating the users.

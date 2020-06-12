@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Onion.API.Model.Employee;
+﻿using Onion.API.Model.Employee;
+using System.Collections.Generic;
 
 namespace Onion.API.Repository.Employee
 {
     public interface IEmployeeRepository
     {
         void SaveChanges();
-
 
         // in this level the return type is basic employee type.
         // because this layer's only job is to return the data.

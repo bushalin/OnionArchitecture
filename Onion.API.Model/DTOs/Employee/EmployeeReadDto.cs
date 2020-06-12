@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Onion.API.Model.DTOs.Employee
+﻿namespace Onion.API.Model.DTOs.Employee
 {
     public class EmployeeReadDto
     {

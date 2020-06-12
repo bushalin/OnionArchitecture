@@ -10,7 +10,7 @@ namespace Onion.API.Controllers
 {
     [Route("api/Employee")]
     [ApiController]
-    public class EmployeeController: Controller
+    public class EmployeeController : Controller
     {
         private readonly IEmployeeServices _employeeServices;
         private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ namespace Onion.API.Controllers
         public IActionResult GetEmployeeById(int id)
         {
             var result = _employeeServices.GetEmployeeById(id);
-            if(result != null)
+            if (result != null)
             {
                 return Ok(result);
             }
@@ -60,7 +60,7 @@ namespace Onion.API.Controllers
         public IActionResult UpdateEmployee(int id, EmployeeUpdateDto obj)
         {
             var employeeModelFromRepo = _employeeServices.GetEmployeeById(id);
-            if(employeeModelFromRepo == null)
+            if (employeeModelFromRepo == null)
             {
                 return NotFound();
             }
@@ -69,7 +69,7 @@ namespace Onion.API.Controllers
                 _employeeServices.Edit(id, obj);
                 return NoContent();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 const string msg = "Unable to PUT update employee request";
                 return StatusCode((int)HttpStatusCode.InternalServerError, msg);
@@ -90,12 +90,11 @@ namespace Onion.API.Controllers
             return NoContent();
         }
 
-
         // DELETE api/employee/{id}
         [HttpDelete("{id}")]
         public IActionResult DeleteEmployee(int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }

@@ -1,16 +1,16 @@
-﻿using Onion.API.Model.Employee;
+﻿using Onion.API.Model;
+using Onion.API.Model.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Onion.API.Repository.Employee
 {
     public class SQLEmployeeRepository : IEmployeeRepository
     {
-        private readonly OnionAPIDbContext _context;
+        private readonly OnionApiDbContext _context;
 
-        public SQLEmployeeRepository(OnionAPIDbContext context)
+        public SQLEmployeeRepository(OnionApiDbContext context)
         {
             _context = context;
         }

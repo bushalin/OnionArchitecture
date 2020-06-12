@@ -1,7 +1,6 @@
 ﻿using Onion.API.Model.Employee;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Onion.API.Repository.Employee
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Onion.API.Model.Employee
 {
@@ -9,6 +6,7 @@ namespace Onion.API.Model.Employee
     {
         [Key]
         public int EmployeeId { get; set; }
+
         public string EmployeeName { get; set; }
         public string EmployeeAddress { get; set; }
         public string EmployeeJobTitle { get; set; }
