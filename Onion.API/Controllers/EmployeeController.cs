@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Onion.API.Model.DTOs.Employee;
+using Onion.API.Model.Employee;
 using Onion.API.Services.Employee;
 using System;
 using System.Net;
@@ -30,10 +31,11 @@ namespace Onion.API.Controllers
         [HttpGet("{id}", Name = "GetEmployeeById")]
         public IActionResult GetEmployeeById(int id)
         {
-            var result = _employeeServices.GetEmployeeById(id);
-            if (result != null)
+            var serviceResult = _employeeServices.GetEmployeeById(id);
+            //var result = _mapper.Map<EmployeeReadDto>(serviceResult);
+            if (serviceResult != null)
             {
-                return Ok(result);
+                return Ok(serviceResult);
             }
 
             return NotFound();
@@ -49,8 +51,8 @@ namespace Onion.API.Controllers
         [HttpPost]
         public IActionResult CreateEmployee(EmployeeCreateDto obj)
         {
-            var result = _mapper.Map<EmployeeReadDto>(_employeeServices.Create(obj));
-
+            var result = _employeeServices.Create(obj);
+            //var result = _mapper.Map<EmployeeReadDto>(_employeeServices.Create(obj));
             return CreatedAtRoute(nameof(GetEmployeeById), new { Id = result.EmployeeId }, result);
         }
 
@@ -66,6 +68,7 @@ namespace Onion.API.Controllers
             }
             try
             {
+                //var employee = _mapper.Map<EmployeeModel>(obj);
                 _employeeServices.Edit(id, obj);
                 return NoContent();
             }
@@ -85,6 +88,8 @@ namespace Onion.API.Controllers
             {
                 return NotFound();
             }
+            //var employeeToPatch = _mapper.Map<EmployeeUpdateDto>(employeeModelFromRepo);
+            //jsonPatchDocument.ApplyTo(employeeToPatch);
             _employeeServices.PartialEdit(id, jsonPatchDocument);
 
             return NoContent();

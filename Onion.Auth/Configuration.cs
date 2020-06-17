@@ -109,6 +109,24 @@ namespace Onion.Auth
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     }
+                },
+
+                new Client
+                {
+                    ClientId = "Onion.MVCClient",
+                    ClientSecrets = { new Secret("onion_mvc_secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44344/signin-oidc" },
+                    RequireConsent = false,
+
+                    AllowedScopes =
+                    {
+                        "basicIdentityApi",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }

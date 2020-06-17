@@ -3,32 +3,30 @@ using Microsoft.AspNetCore.JsonPatch;
 using Onion.API.Model.DTOs.Employee;
 using Onion.API.Model.Employee;
 using Onion.API.Repository.Employee;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Onion.API.Services.Employee
 {
-    public class EmployeeServices : IEmployeeServices
+    public class EmployeeDTOServices : IEmployeeServices
     {
         private readonly IEmployeeRepository _employeeRepo;
         private readonly IMapper _mapper;
 
-        public EmployeeServices(IEmployeeRepository employeeRepo, IMapper mapper)
+        public EmployeeDTOServices(IEmployeeRepository employeeRepo, IMapper mapper)
         {
             _employeeRepo = employeeRepo;
             _mapper = mapper;
         }
 
-        public EmployeeModel Create(EmployeeCreateDto obj)
+        public EmployeeReadDto Create(EmployeeCreateDto obj)
         {
             var employeeModel = _mapper.Map<EmployeeModel>(obj);
 
             _employeeRepo.Add(employeeModel);
             _employeeRepo.SaveChanges();
 
-            return employeeModel;
+            return _mapper.Map<EmployeeReadDto>(employeeModel);
         }
 
         public void Delete(int id)

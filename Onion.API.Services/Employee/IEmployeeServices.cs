@@ -13,7 +13,7 @@ namespace Onion.API.Services.Employee
         IEnumerable<EmployeeReadDto> GetAllEmployees();
         EmployeeReadDto GetEmployeeById(int id);
 
-        EmployeeModel Create(EmployeeCreateDto obj);
+        EmployeeReadDto Create(EmployeeCreateDto obj);
 
         void Edit(int id, EmployeeUpdateDto obj);
 

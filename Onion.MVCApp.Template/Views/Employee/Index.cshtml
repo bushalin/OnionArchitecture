@@ -1,0 +1,29 @@
+﻿@model List<Onion.MVCApp.Template.Models.Employee>
+
+<div class="text-center">
+    <h1 class="display-4">Employee</h1>
+</div>
+<div>
+    <table class="table table-bordered table-striped table-sm m-2">
+        <thead>
+            <tr>
+                <th>Employee Id</th>
+                <th>Employee Name</th>
+                <th>Employee Address</th>
+                <th>Employee JobTitle</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EmployeeId</td>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.EmployeeAddress</td>
+                    <td>@item.EmployeeJobTitle</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

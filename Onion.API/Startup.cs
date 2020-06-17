@@ -9,7 +9,9 @@ using Newtonsoft.Json.Serialization;
 using Onion.API.Middleware;
 using Onion.API.Model;
 using Onion.API.Repository.Employee;
+using Onion.API.Repository.Location;
 using Onion.API.Services.Employee;
+using Onion.API.Services.Location;
 using System;
 
 namespace Onion.API
@@ -71,9 +73,11 @@ namespace Onion.API
             // using automapper for mapping the properties to the DTOs
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<IEmployeeServices, EmployeeServices>();
+            services.AddScoped<IEmployeeServices, EmployeeDTOServices>();
+            services.AddScoped<ILocationServices, LocationServices>();
 
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            services.AddScoped<ILocationRepository, SQLLocationRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

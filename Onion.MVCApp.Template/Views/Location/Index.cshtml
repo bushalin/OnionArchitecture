@@ -1,0 +1,32 @@
+﻿@model List<Onion.MVCApp.Template.Models.EmployeeLocation>
+
+<div class="text-center">
+    <h1>Current Location of the Employees</h1>
+</div>
+
+<div>
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Current Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.EmployeeId</td>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.JobTitle</td>
+                    <td>@item.CurrentLocation</td>
+                    <td><a asp-action="EditLocation" asp-route-employeeId="@item.EmployeeId">Edit Location</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
