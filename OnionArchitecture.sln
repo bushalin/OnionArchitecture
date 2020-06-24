@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onion.API.Services", "Onion
 		{6DFF5AEC-9FB8-4922-B028-4ACA58674899} = {6DFF5AEC-9FB8-4922-B028-4ACA58674899}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onion.MVCApp.Template", "Onion.MVCApp.Template\Onion.MVCApp.Template.csproj", "{BB0C56E5-F099-4C1A-8B12-EDDEAF98AB0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onion.MVCApp.Template", "Onion.MVCApp.Template\Onion.MVCApp.Template.csproj", "{BB0C56E5-F099-4C1A-8B12-EDDEAF98AB0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

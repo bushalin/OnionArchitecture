@@ -1,5 +1,3 @@
-using System;
-
 namespace Onion.MVCApp.Template.Models
 {
     public class ErrorViewModel

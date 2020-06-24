@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Onion.API.Model.Employee;
 
 namespace Onion.API.Model
 {
-    public class OnionApiDbContext : DbContext
+    public class OnionApiDbContext : IdentityDbContext
     {
         public OnionApiDbContext(DbContextOptions<OnionApiDbContext> options) : base(options)
         {
         }
 
         public DbSet<EmployeeModel> Employees { get; set; }
-        public DbSet<Location> Locations { get; set; }
+        public DbSet<LocationModel> Locations { get; set; }
     }
 }

@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Onion.API.Model.DTOs.Employee;
 using Onion.API.Model.Employee;
-using Onion.API.Repository.Employee;
+using Onion.API.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,12 +11,12 @@ namespace Onion.API.Services.Employee
 {
     public class EmployeeDTOServices : IEmployeeServices
     {
-        private readonly IEmployeeRepository _employeeRepo;
+        private readonly IEmployeeRepository _repository;
         private readonly IMapper _mapper;
 
-        public EmployeeDTOServices(IEmployeeRepository employeeRepo, IMapper mapper)
+        public EmployeeDTOServices(IEmployeeRepository repository, IMapper mapper)
         {
-            _employeeRepo = employeeRepo;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -23,53 +24,52 @@ namespace Onion.API.Services.Employee
         {
             var employeeModel = _mapper.Map<EmployeeModel>(obj);
 
-            _employeeRepo.Add(employeeModel);
-            _employeeRepo.SaveChanges();
+            _repository.Insert(employeeModel);
+            _repository.SaveChanges();
 
             return _mapper.Map<EmployeeReadDto>(employeeModel);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            _employeeRepo.Delete(id);
-            _employeeRepo.SaveChanges();
+            _repository.Delete(id);
+            _repository.SaveChanges();
         }
 
-        public void Edit(int id, EmployeeUpdateDto obj)
+        public void Edit(Guid id, EmployeeUpdateDto obj)
         {
-            var employeeModelFromRepository = _employeeRepo.GetEmployeeById(id);
+            var employeeModelFromRepository = _repository.GetById(id);
             var employeeModel = _mapper.Map(obj, employeeModelFromRepository);
 
-            _employeeRepo.Edit(employeeModel);
+            _repository.Update(employeeModel);
             // we are saving this changes in the database by this line
-            _employeeRepo.SaveChanges();
+            _repository.SaveChanges();
         }
 
         public IEnumerable<EmployeeReadDto> GetAllEmployees()
         {
-            var result = _employeeRepo.GetAllEmployee().ToList();
+            var result = _repository.GetAll().ToList();
             return _mapper.Map<IEnumerable<EmployeeReadDto>>(result);
         }
 
-        public EmployeeReadDto GetEmployeeById(int id)
+        public EmployeeReadDto GetEmployeeById(Guid id)
         {
-            var result = _employeeRepo.GetEmployeeById(id);
+            var result = _repository.GetById(id);
             return _mapper.Map<EmployeeReadDto>(result);
         }
 
-        public void PartialEdit(int id, JsonPatchDocument<EmployeeUpdateDto> jsonPatchDocument)
+        public void PartialEdit(Guid id, JsonPatchDocument<EmployeeUpdateDto> jsonPatchDocument)
         {
-            var employeeModelFromRepository = _employeeRepo.GetEmployeeById(id);
+            var employeeModelFromRepository = _repository.GetById(id);
             var employeeModel = _mapper.Map<EmployeeUpdateDto>(employeeModelFromRepository);
 
             jsonPatchDocument.ApplyTo(employeeModel);
 
             var result = _mapper.Map(employeeModel, employeeModelFromRepository);
 
-            _employeeRepo.Edit(result);
+            _repository.Update(result);
 
-            _employeeRepo.SaveChanges();
+            _repository.SaveChanges();
         }
-
     }
 }

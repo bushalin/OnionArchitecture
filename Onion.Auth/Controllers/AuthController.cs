@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Onion.Auth.Controllers
@@ -15,6 +16,7 @@ namespace Onion.Auth.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
@@ -26,7 +28,7 @@ namespace Onion.Auth.Controllers
         {
             var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, false, false);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return Redirect(vm.ReturnUrl);
             }
@@ -43,15 +45,16 @@ namespace Onion.Auth.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(vm);
             }
 
             var user = new IdentityUser(vm.Username);
             var result = await _userManager.CreateAsync(user, vm.Password);
+            _userManager.AddClaimAsync(user, new Claim("rc.grandma", "big.cookie")).GetAwaiter().GetResult();
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
                 return Redirect(vm.ReturnUrl);

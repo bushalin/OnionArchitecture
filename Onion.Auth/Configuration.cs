@@ -12,6 +12,7 @@ namespace Onion.Auth
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile()
             };
+
         public static IEnumerable<ApiResource> GetApis()
         {
             return new List<ApiResource>
@@ -55,6 +56,7 @@ namespace Onion.Auth
                     ClientSecrets = { new Secret("mvc_client_secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
+                    AllowOfflineAccess = true,
 
                     RedirectUris = { "https://localhost:44332/signin-oidc" },
                     RequireConsent = false,
@@ -62,7 +64,6 @@ namespace Onion.Auth
                     AllowedScopes =
                     {
                         "basicIdentityApi",
-                        "MainApi",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     }
@@ -117,6 +118,7 @@ namespace Onion.Auth
                     ClientSecrets = { new Secret("onion_mvc_secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
+                    AllowOfflineAccess = true,
 
                     RedirectUris = { "https://localhost:44344/signin-oidc" },
                     RequireConsent = false,

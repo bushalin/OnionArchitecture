@@ -10,7 +10,7 @@
 
 <body>
     <form asp-controller="Auth" asp-action="Login" method="post">
-        <input type="text" asp-for="ReturnUrl" />
+        <input type="hidden" asp-for="ReturnUrl" />
         <div>
             <label>Username</label>
             <input asp-for="Username" />

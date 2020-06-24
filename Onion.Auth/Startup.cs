@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -52,6 +53,7 @@ namespace Onion.Auth
             {
                 config.Cookie.Name = "Onion.Cookie";
                 config.LoginPath = "/Auth/Login";
+                config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
             });
 
             services.AddIdentityServer()

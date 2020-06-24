@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Onion.MVCApp.Template.Models;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -11,31 +13,38 @@ namespace Onion.MVCApp.Template.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly ILogger<EmployeeController> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClient;
 
-        public EmployeeController(ILogger<EmployeeController> logger, IHttpClientFactory httpClientFactory)
+        public EmployeeController(IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
-            _httpClientFactory = httpClientFactory;
+            _httpClient = httpClientFactory;
         }
 
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            List<Employee> employeeList = new List<Employee>();
+            List<Employee> employees = new List<Employee>();
 
-            var client = _httpClientFactory.CreateClient("api");
+            var client = _httpClient.CreateClient("api");
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var idToken = await HttpContext.GetTokenAsync("id_token");
+            var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
 
-            var response = client.GetAsync("https://localhost:44361/api/Employee");
+            var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
+            var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
+            // var _refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(refreshToken);
+
+            client.SetBearerToken(accessToken);
+            var response = client.GetAsync("Employee");
 
             var apiResponse = response.Result.Content.ReadAsStringAsync();
 
-            if(apiResponse.IsCompletedSuccessfully)
+            if (apiResponse.IsCompletedSuccessfully)
             {
-                employeeList = JsonConvert.DeserializeObject<List<Employee>>(apiResponse.Result);
+                employees = JsonConvert.DeserializeObject<List<Employee>>(apiResponse.Result);
             }
-            return View(employeeList);
+
+            return View(employees);
         }
     }
 }

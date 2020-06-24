@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Onion.API.Model.Common;
 
 namespace Onion.API.Model.Employee
 {
-    public class EmployeeModel
+    public class EmployeeModel : AuditableEnitity
     {
-        [Key]
-        public int EmployeeId { get; set; }
-
-        public string EmployeeName { get; set; }
-        public string EmployeeAddress { get; set; }
-        public string EmployeeJobTitle { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string JobTitle { get; set; }
     }
 }

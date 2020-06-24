@@ -1,6 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,8 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using Onion.API.Middleware;
 using Onion.API.Model;
-using Onion.API.Repository.Employee;
-using Onion.API.Repository.Location;
+using Onion.API.Repository;
 using Onion.API.Services.Employee;
 using Onion.API.Services.Location;
 using System;
@@ -57,10 +58,10 @@ namespace Onion.API
 
             // this is where we make sure that our application's authentication is form the identityserver4 project.
             // the configure method's(below) authentication is using this authentication service for authenticating the users.
-            services.AddAuthentication("Bearer")
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 // we need to add the nuget package (Microsoft.AspNetCore.Authentication.JwtBearer) and then add the jwtbearer service to the application
                 // to make use of the jwtbearer authentication scheme
-                .AddJwtBearer("Bearer", config =>
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
                 {
                     // the authority is where we are going to authenticate our application's user traffic
                     config.Authority = "https://localhost:44367/";
@@ -70,14 +71,18 @@ namespace Onion.API
                     config.Audience = "basicIdentityApi";
                 });
 
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<OnionApiDbContext>();
+
             // using automapper for mapping the properties to the DTOs
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IEmployeeServices, EmployeeDTOServices>();
             services.AddScoped<ILocationServices, LocationServices>();
 
-            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
-            services.AddScoped<ILocationRepository, SQLLocationRepository>();
+            //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

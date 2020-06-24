@@ -6,14 +6,14 @@ namespace Onion.API.Model.DTOs.Employee
     {
         [Required]
         [MaxLength(250)]
-        public string EmployeeName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [MaxLength(250)]
-        public string EmployeeAddress { get; set; }
+        public string Address { get; set; }
 
         [Required]
         [MaxLength(200)]
-        public string EmployeeJobTitle { get; set; }
+        public string JobTitle { get; set; }
     }
 }

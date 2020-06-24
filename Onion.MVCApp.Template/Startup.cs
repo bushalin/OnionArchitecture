@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Onion.MVCApp.Template
 {
@@ -41,6 +37,11 @@ namespace Onion.MVCApp.Template
                     config.SaveTokens = true;
 
                     config.ResponseType = "code";
+                    config.Scope.Clear();
+                    config.Scope.Add("openid");
+                    config.Scope.Add("profile");
+                    config.Scope.Add("basicIdentityApi");
+                    config.Scope.Add("offline_access");
                 });
 
             services.AddControllersWithViews();
@@ -62,7 +63,7 @@ namespace Onion.MVCApp.Template
 
             app.UseRouting();
 
-            // use this to enable and configure signin-oidc 
+            // use this to enable and configure signin-oidc
             app.UseAuthentication();
 
             app.UseAuthorization();

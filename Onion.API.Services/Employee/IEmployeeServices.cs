@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Onion.API.Model.DTOs.Employee;
-using Onion.API.Model.Employee;
+using System;
 using System.Collections.Generic;
 
 namespace Onion.API.Services.Employee
@@ -11,14 +11,15 @@ namespace Onion.API.Services.Employee
         // cause in this level there should be logic of how to return the data
         // so in this layer we use the DTO(Data Transfer object
         IEnumerable<EmployeeReadDto> GetAllEmployees();
-        EmployeeReadDto GetEmployeeById(int id);
+
+        EmployeeReadDto GetEmployeeById(Guid id);
 
         EmployeeReadDto Create(EmployeeCreateDto obj);
 
-        void Edit(int id, EmployeeUpdateDto obj);
+        void Edit(Guid id, EmployeeUpdateDto obj);
 
-        void PartialEdit(int id, JsonPatchDocument<EmployeeUpdateDto> jsonPatchDocument);
+        void PartialEdit(Guid id, JsonPatchDocument<EmployeeUpdateDto> jsonPatchDocument);
 
-        void Delete(int id);
+        void Delete(Guid id);
     }
 }

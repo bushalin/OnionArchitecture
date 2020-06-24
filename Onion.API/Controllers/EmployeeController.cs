@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Onion.API.Model.DTOs.Employee;
-using Onion.API.Model.Employee;
 using Onion.API.Services.Employee;
 using System;
 using System.Net;
@@ -22,6 +21,7 @@ namespace Onion.API.Controllers
             _mapper = mapper;
         }
 
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public IActionResult GetAllEmployees()
         {
@@ -29,7 +29,7 @@ namespace Onion.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEmployeeById")]
-        public IActionResult GetEmployeeById(int id)
+        public IActionResult GetEmployeeById(Guid id)
         {
             var serviceResult = _employeeServices.GetEmployeeById(id);
             //var result = _mapper.Map<EmployeeReadDto>(serviceResult);
@@ -53,13 +53,13 @@ namespace Onion.API.Controllers
         {
             var result = _employeeServices.Create(obj);
             //var result = _mapper.Map<EmployeeReadDto>(_employeeServices.Create(obj));
-            return CreatedAtRoute(nameof(GetEmployeeById), new { Id = result.EmployeeId }, result);
+            return CreatedAtRoute(nameof(GetEmployeeById), new { Id = result.Id }, result);
         }
 
         // this is not a good way to implement edit
         // HttpPut requires the whole object to edit, so it is hard to maintain and ERROR-PRONE
         [HttpPut("{id}")]
-        public IActionResult UpdateEmployee(int id, EmployeeUpdateDto obj)
+        public IActionResult UpdateEmployee(Guid id, EmployeeUpdateDto obj)
         {
             var employeeModelFromRepo = _employeeServices.GetEmployeeById(id);
             if (employeeModelFromRepo == null)
@@ -81,7 +81,7 @@ namespace Onion.API.Controllers
 
         // PATCH api/employee/{id}
         [HttpPatch("{id}")]
-        public IActionResult PartialEmployeeUpdate(int id, JsonPatchDocument<EmployeeUpdateDto> jsonPatchDocument)
+        public IActionResult PartialEmployeeUpdate(Guid id, JsonPatchDocument<EmployeeUpdateDto> jsonPatchDocument)
         {
             var employeeModelFromRepo = _employeeServices.GetEmployeeById(id);
             if (employeeModelFromRepo == null)
@@ -97,7 +97,7 @@ namespace Onion.API.Controllers
 
         // DELETE api/employee/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteEmployee(int id)
+        public IActionResult DeleteEmployee(Guid id)
         {
             if (!ModelState.IsValid)
             {

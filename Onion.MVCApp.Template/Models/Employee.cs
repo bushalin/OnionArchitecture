@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Onion.MVCApp.Template.Models
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
-        public string EmployeeAddress { get; set; }
-        public string EmployeeJobTitle { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string JobTitle { get; set; }
     }
 }
