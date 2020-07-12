@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Onion.API.Model;
 
 namespace Onion.API.Model.Migrations
 {
     [DbContext(typeof(OnionApiDbContext))]
-    partial class OnionApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200630045757_userid_add")]
+    partial class userid_add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

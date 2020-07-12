@@ -1,4 +1,5 @@
 using AutoMapper;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,9 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using Onion.API.Middleware;
 using Onion.API.Model;
+using Onion.API.Model.Employee;
 using Onion.API.Repository;
 using Onion.API.Services.Employee;
 using Onion.API.Services.Location;
+using Onion.API.Services.User;
 using System;
 
 namespace Onion.API
@@ -71,7 +74,7 @@ namespace Onion.API
                     config.Audience = "basicIdentityApi";
                 });
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<OnionApiDbContext>();
 
             // using automapper for mapping the properties to the DTOs
@@ -79,10 +82,12 @@ namespace Onion.API
 
             services.AddScoped<IEmployeeServices, EmployeeDTOServices>();
             services.AddScoped<ILocationServices, LocationServices>();
+            services.AddScoped<IUserServices, UserServices>();
 
             //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -100,6 +105,10 @@ namespace Onion.API
 
             // use this to add authentication. in our case this is identityserver4
             app.UseAuthentication();
+
+            //app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            //{
+            //})
 
             // use this to add authorization. in our case this is identityserver4
             app.UseAuthorization();

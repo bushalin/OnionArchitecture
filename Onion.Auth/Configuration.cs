@@ -1,6 +1,8 @@
-﻿using IdentityServer4;
+﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Onion.Auth
 {
@@ -10,7 +12,8 @@ namespace Onion.Auth
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
         public static IEnumerable<ApiResource> GetApis()
@@ -20,7 +23,16 @@ namespace Onion.Auth
                 // this is the resource we are protecting using identityserver
                 // this resource name is defined in the API
                 // inside app.AddAuthentication("Bearer") => config.Audience <= is the name of the api
-                new ApiResource("basicIdentityApi"),
+                new ApiResource("basicIdentityApi")
+                {
+                    Name = "basicIdentityApi",
+                    DisplayName = "Moritake Gumi API",
+                    Description = "This api has the data to access something",
+                    UserClaims = new List<string>
+                    {
+                        "employee_id"
+                    }
+                },
                 new ApiResource("MainApi")
             };
         }
@@ -65,7 +77,8 @@ namespace Onion.Auth
                     {
                         "basicIdentityApi",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email
                     }
                 },
 
@@ -127,7 +140,8 @@ namespace Onion.Auth
                     {
                         "basicIdentityApi",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        //IdentityServerConstants.StandardScopes.Email
                     }
                 }
             };

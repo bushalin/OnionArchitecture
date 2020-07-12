@@ -40,6 +40,7 @@ namespace Onion.MVCApp.Template
                     config.Scope.Clear();
                     config.Scope.Add("openid");
                     config.Scope.Add("profile");
+                    //config.Scope.Add("email");
                     config.Scope.Add("basicIdentityApi");
                     config.Scope.Add("offline_access");
                 });

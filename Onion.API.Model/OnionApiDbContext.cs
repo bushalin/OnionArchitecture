@@ -4,7 +4,7 @@ using Onion.API.Model.Employee;
 
 namespace Onion.API.Model
 {
-    public class OnionApiDbContext : IdentityDbContext
+    public class OnionApiDbContext : IdentityDbContext<ApplicationUser>
     {
         public OnionApiDbContext(DbContextOptions<OnionApiDbContext> options) : base(options)
         {
